@@ -1,8 +1,12 @@
 /*jshint esversion: 6 */
 
 var express = require('express');
+var router = express.Router();
 var app = express();
-var PORT = process.env.PORT || 9000
+var PORT = process.env.PORT || 9000;
+var bodyParser = require('body-parser');
+
+
 
 
 app.get('/', (req, res)=>{
@@ -26,5 +30,5 @@ app.get('/', (req, res)=>{
 
 
 app.listen(PORT, ()=>{
-  console.log('server running on port 9000');
+  console.log(`server running on ${PORT} `);
 });
