@@ -1,0 +1,17 @@
+index.html
+
+X - server.js
+
+router.js (for users?)
+
+X - database - plan our our database, table structure
+X - sequelize
+
+pg-promise vs. pg-hstore??? to talk between server and database
+
+exoress handle-bars
+
+gulp for SCSS
+
+method-override ?
+
