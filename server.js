@@ -1,33 +1,24 @@
 /*jshint esversion: 6 */
 
-var express = require('express');
-var router = express.Router();
-var app = express();
-var PORT = process.env.PORT || 9000;
-var bodyParser = require('body-parser');
+const express = require('express');
+const router = express.Router();
+const app = express();
+const PORT = process.env.PORT || 9000;
+const bodyParser = require('body-parser');
+const imageRouter = require('./routes/image_routes');
 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use('/gallery', imageRouter);
 
-let db = require('./models');
+const db = require('./models');
 
-let Images = db.Images;
-let Authors = db.Authors;
+const Images = db.Images;
+const Authors = db.Authors;
 
-app.get('/images', function(req, res) {
-  Images.findAll()
-  .then(function (images){
-    res.json(images);
-  });
-});
-
-
-app.get('/', (req, res)=>{
-  res.send('Hello World');
-});
 
 
 app.listen(PORT, ()=>{
-  db.sequelize.drop();
+  //db.sequelize.drop();
   db.sequelize.sync();
-  console.log(`server running on ${PORT} `);
+  console.log(`server running on ${PORT}`);
 });
