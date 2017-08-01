@@ -21,7 +21,7 @@ router.post('/', (req, res)=>{
   return Images.findAll({where: {url: data.url}})
   .then(result =>{
     if(result.length !== 0){
-      res.send('fuck off!');
+      throw new Error('An image with this url already exists');
     } else {
       return Authors.findAll({where: {name: author}});
     }
@@ -37,18 +37,42 @@ router.post('/', (req, res)=>{
   })
   .then(result =>{
     return result.dataValues.id;
-    
   })
   .then(id =>{
-
     return Images.create({url: data.url, description: data.description, authors_id: id});
-    
   })
   .then(result =>{
-    res.json(result);
+    return res.json(result);
+  })
+  .catch((error) => {
+    console.log ('here is our error', error);
+    return res.status(400).send('something went terribly wrong');
   });
 });
 
 
+router.put('/:id', (req, res) => {
+  let data = req.body;
+  let id = req.params.id;
+
+  return Images.findById(id)
+  .then(result => {
+    // console.log('this is the length', results.length);
+    // console.log('this is what the query returns', results);
+
+    if (result === null){
+      throw new Error('Error - trying to edit a record that does not exist.');
+    } else {
+      return result.update({url: data.url, description: data.description});
+    }
+  })
+  .then (result => {
+    return res.json(result);
+  })
+    .catch((error) => {
+    console.log ('here is our error', error);
+    return res.status(400).send('something went terribly wrong');
+  });
+});
 
 module.exports = router;
