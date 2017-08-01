@@ -75,4 +75,33 @@ router.put('/:id', (req, res) => {
   });
 });
 
+router.get('/:id', (req, res)=>{
+  let id = req.params.id;
+  return Images.findById(id)
+  .then(result =>{
+    if(result === null){
+      res.json('Not today loser');
+    } else{
+    res.json(result);
+    }
+  });
+});
+
+router.delete('/:id', (req, res) =>{
+  let id = req.params.id;
+  return Images.destroy({where: {id: id}})
+  .then(result =>{
+    console.log('results from delete:',result);
+    res.end();
+  });
+});
+
+
+
+
+
+
+
+
+
 module.exports = router;
