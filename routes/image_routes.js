@@ -77,8 +77,6 @@ router.put('/:id', (req, res) => {
 
   return Images.findById(id)
   .then(result => {
-    // console.log('this is the length', results.length);
-    // console.log('this is what the query returns', results);
 
     if (result === null){
       throw new Error('Error - trying to edit a record that does not exist.');
@@ -87,7 +85,32 @@ router.put('/:id', (req, res) => {
     }
   })
   .then (result => {
-    return res.json(result);
+    return res.redirect('/gallery/'+id);
+    // return res.json(result);
+  })
+  .catch((error) => {
+    console.log ('here is our error', error);
+    return res.status(400).send(error.message);
+  });
+});
+
+router.get('/:id/edit', (req, res) => {
+  let targetId = parseInt(req.params.id);
+
+
+  let allViewObj = {
+    targetImage: {},
+    otherImages: []
+  };
+
+  return Images.findById(targetId, {include: [ Authors ]})
+  .then(result => {
+
+    if (result === null){
+      throw new Error('Error - trying to edit a record that does not exist.');
+    } else {
+      res.render('editForm', result);
+    }
   })
   .catch((error) => {
     console.log ('here is our error', error);
@@ -125,12 +148,20 @@ router.get('/:id', (req, res) => {
   });
 });
 
+router.get('/new', (req, res) => {
+  res.render('newForm');
+});
+
 router.delete('/:id', (req, res) => {
+  console.log('DELETE ROUTE is being hit');
   let id = req.params.id;
   return Images.destroy({where: {id: id}})
   .then(result => {
     console.log('results from delete:',result);
-    res.end();
+    return res.redirect('/gallery');
+  }).catch(error => {
+    console.log ('here is our error', error);
+    return res.status(400).send(error.message);
   });
 });
 

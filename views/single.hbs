@@ -11,7 +11,11 @@
       <div class="mainImageTitleSingle">{{targetImage.Author.dataValues.name}} - {{targetImage.dataValues.url}}</div>
       <div class="mainImageSingle" style="background-image:url({{targetImage.dataValues.url}})">
         <div class="imageModal"></div>
-        <div class="editLink"><a href="/gallery/{{targetImage.dataValues.id}}/edit">EDIT</a></div>
+        <div class="editLink">
+          {{!-- <a href="/gallery/{{targetImage.dataValues.id}}">DELETE</a> --}}
+          <form class= "deleteLink" action="/gallery/{{targetImage.dataValues.id}}?_method=DELETE" method="POST" enctype ="application/x-www-form-urlencoded"><button class="deleteLink" type="submit">DELETE</button></form>
+          <a href="/gallery/{{targetImage.dataValues.id}}/edit">EDIT</a>
+        </div>
       </div>
       <div class="mainImageDescriptionSingle">{{targetImage.dataValues.description}}</div>
     </div>

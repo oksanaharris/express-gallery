@@ -6,6 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 9000;
 const bodyParser = require('body-parser');
 const imageRouter = require('./routes/image_routes');
+const methodOverride = require('method-override');
 const expressHb = require('express-handlebars');
 const hbs = expressHb.create({
   defaultLayout: 'main',
@@ -19,15 +20,15 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(express.static('public'));
 
-app.use('/gallery', imageRouter);
+app.use(methodOverride('_method'));
 
+app.use('/gallery', imageRouter);
 
 
 const db = require('./models');
 
 const Images = db.Images;
 const Authors = db.Authors;
-
 
 
 app.listen(PORT, ()=>{
