@@ -16,9 +16,12 @@ app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 
 app.use(bodyParser.urlencoded({extended: true}));
-app.use('/gallery', imageRouter);
 
 app.use(express.static('public'));
+
+app.use('/gallery', imageRouter);
+
+
 
 const db = require('./models');
 

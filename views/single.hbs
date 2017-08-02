@@ -1,0 +1,28 @@
+{{!-- <h1>Hello World!</h1> --}}
+
+<div class="pageContainer">
+  <div class="titleContainer">
+   <h1 class="pageTitle">_ARCATEKT</h1>
+   <p class="pageDescription">Welcome to our online portfolio, we are a small group of passionate designers and architects, looking to change and create amazing digital images to inspire others to follow in our innovative steps. Free Architect WordPress Theme</p>
+  </div>
+
+  <div class="galleryContainerSingle">
+    <div class="mainImageContainerSingle">
+      <div class="mainImageTitleSingle">{{targetImage.Author.dataValues.name}} - {{targetImage.dataValues.url}}</div>
+      <div class="mainImageSingle" style="background-image:url({{targetImage.dataValues.url}})">
+        <div class="imageModal"></div>
+        <div class="editLink"><a href="/gallery/{{targetImage.dataValues.id}}/edit">EDIT</a></div>
+      </div>
+      <div class="mainImageDescriptionSingle">{{targetImage.dataValues.description}}</div>
+    </div>
+
+    <div class="sliderContainerSingle">
+    {{#each otherImages}}
+      <div class="imageContainerSingle">
+        <a href="/gallery/{{dataValues.id}}"><div class="imageSingle" style="background-image:url({{dataValues.url}})"></div></a>
+        <div class="imageDetailsSingle">{{Author.dataValues.name}} - {{dataValues.url}}</div>
+      </div>
+    {{/each}}
+    </div>
+  </div>
+</div>

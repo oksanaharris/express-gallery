@@ -1,0 +1,121 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box; }
+
+body {
+  background-color: yellow; }
+
+.titleContainer {
+  background-color: red;
+  width: 70%;
+  margin: auto;
+  margin-top: 100px;
+  margin-bottom: 80px; }
+
+.pageTitle {
+  width: 60%;
+  background-color: grey;
+  display: inline;
+  vertical-align: top;
+  font-size: 90px; }
+
+.pageDescription {
+  padding-top: 15px;
+  padding-left: 10px;
+  width: 39%;
+  background-color: maroon;
+  display: inline-block;
+  font-size: 18px; }
+
+.galleryContainer {
+  background-color: green;
+  width: 70%;
+  margin: auto; }
+
+.mainImage {
+  width: 100%;
+  height: 500px;
+  background-size: cover;
+  margin-bottom: 50px; }
+
+.imageContainer {
+  background-color: purple;
+  display: inline-block; }
+
+.image {
+  width: 300px;
+  height: 200px;
+  background-position: center; }
+
+.imageDetails {
+  /*padding-left: 20px;*/ }
+
+.galleryContainerSingle {
+  width: 70%;
+  height: 600px;
+  background-color: green;
+  margin: auto;
+  overflow: auto; }
+
+.mainImageContainerSingle {
+  width: 60%;
+  height: 600px;
+  background-color: orange;
+  display: inline-block;
+  float: left; }
+
+.mainImageSingle {
+  width: 100%;
+  height: 300px;
+  background-size: cover;
+  vertical-align: bottom; }
+
+.mainImageSingle:hover .imageModal {
+  display: block; }
+
+.mainImageSingle:hover .editLink {
+  display: block; }
+
+.imageModal {
+  display: none;
+  height: 40px;
+  width: 100%;
+  background-color: black;
+  line-height: 300px;
+  vertical-align: bottom;
+  position: relative;
+  bottom: -260px;
+  opacity: .6;
+  color: white; }
+
+.editLink {
+  display: none;
+  position: relative;
+  bottom: -230px;
+  color: white;
+  text-align: right;
+  padding-right: 20px; }
+  .editLink a {
+    color: white;
+    text-decoration: none; }
+
+.sliderContainerSingle {
+  background-color: pink;
+  width: 39%;
+  height: 600px;
+  overflow: auto;
+  display: inline-block;
+  float: right;
+  vertical-align: top;
+  clear: right; }
+
+.imageContainerSingle {
+  width: 80%;
+  margin: auto; }
+
+.imageSingle {
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-position: center; }

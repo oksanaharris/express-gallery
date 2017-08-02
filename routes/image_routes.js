@@ -15,7 +15,7 @@ router.get('/', (req, res)=> {
     include: [ Authors ]
   })
   .then((images)=>{
-    images.forEach(image => console.log('IMAGE', image.Author.dataValues.name));
+    // images.forEach(image => console.log('IMAGE', image.Author.dataValues.name));
     // console.log('HERE ARE OUR IMAGES',
     if(req.headers.hasOwnProperty('accept') && req.headers.accept.match(/json/)) {
       res.json(images);
@@ -96,14 +96,32 @@ router.put('/:id', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  let id = req.params.id;
-  return Images.findById(id)
+  let targetId = parseInt(req.params.id);
+  let allViewObj = {
+    targetImage: {},
+    otherImages: []
+  };
+
+  return Images.findById(targetId, {include: [ Authors ]})
   .then(result => {
     if(result === null){
-      res.json('Not today loser');
+      throw new Error ('Error - image with that id does not exist');
     } else {
-    res.json(result);
+      return allViewObj.targetImage = result;
     }
+  })
+  .then((result) => {
+    return Images.findAll({ include: [ Authors ]})
+  })
+  .then(images => {
+    allViewObj.otherImages = images.filter((image) => {
+      return image.dataValues.id !== targetId;
+    });
+    res.render('single', allViewObj);
+  })
+  .catch(error => {
+    console.log ('here is our error', error);
+    return res.status(400).send(error.message);
   });
 });
 

@@ -2,7 +2,7 @@
 
 <div class="pageContainer">
   <div class="titleContainer">
-   <h1 class="pageTitle">_ARCHITEKT</h1>
+   <h1 class="pageTitle">_ARCATEKT</h1>
    <p class="pageDescription">Welcome to our online portfolio, we are a small group of passionate designers and architects, looking to change and create amazing digital images to inspire others to follow in our innovative steps. Free Architect WordPress Theme</p>
   </div>
 
@@ -11,7 +11,7 @@
 
     {{#each otherImages}}
       <div class="imageContainer">
-        <div class="image" style="background-image:url({{dataValues.url}})"></div>
+        <a href="/gallery/{{dataValues.id}}"><div class="image" style="background-image:url({{dataValues.url}})"></div></a>
         <div class="imageDetails">
           <p class="imageAuthor">{{Author.dataValues.name}}</p>
           <p class="imageUrl">{{dataValues.url}}</p>
