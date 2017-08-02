@@ -6,11 +6,31 @@ const db = require('../models');
 const Images = db.Images;
 const Authors = db.Authors;
 
+// Images.belongsTo(Authors, {as : 'authors_id'});
+// Authors.hasMany(Images);
+
 
 router.get('/', (req, res)=> {
-  Images.findAll()
+  Images.findAll({
+    include: [ Authors ]
+  })
   .then((images)=>{
-    res.json(images);
+    images.forEach(image => console.log('IMAGE', image.Author.dataValues.name));
+    // console.log('HERE ARE OUR IMAGES',
+    if(req.headers.hasOwnProperty('accept') && req.headers.accept.match(/json/)) {
+      res.json(images);
+    } else {
+      let firstImage = images[0];
+      let otherImages = images;
+      otherImages.shift();
+
+      let allViewObj = {
+        firstImage: firstImage,
+        otherImages: otherImages
+      }
+
+      res.render('all', allViewObj);
+    }
   });
 });
 
@@ -19,14 +39,14 @@ router.post('/', (req, res)=>{
   var author = data.author;
 
   return Images.findAll({where: {url: data.url}})
-  .then(result =>{
+  .then(result => {
     if(result.length !== 0){
       throw new Error('An image with this url already exists');
     } else {
       return Authors.findAll({where: {name: author}});
     }
   })
-  .then(result =>{
+  .then(result => {
     console.log("result:", result);
     if(result.length === 0){
       //return makes it accessible in then statement below.
@@ -35,18 +55,18 @@ router.post('/', (req, res)=>{
       return result[0];
     }
   })
-  .then(result =>{
+  .then(result => {
     return result.dataValues.id;
   })
-  .then(id =>{
+  .then(id => {
     return Images.create({url: data.url, description: data.description, authors_id: id});
   })
-  .then(result =>{
+  .then(result => {
     return res.json(result);
   })
   .catch((error) => {
     console.log ('here is our error', error);
-    return res.status(400).send('something went terribly wrong');
+    return res.status(400).send(error.message);
   });
 });
 
@@ -69,28 +89,28 @@ router.put('/:id', (req, res) => {
   .then (result => {
     return res.json(result);
   })
-    .catch((error) => {
+  .catch((error) => {
     console.log ('here is our error', error);
-    return res.status(400).send('something went terribly wrong');
+    return res.status(400).send(error.message);
   });
 });
 
-router.get('/:id', (req, res)=>{
+router.get('/:id', (req, res) => {
   let id = req.params.id;
   return Images.findById(id)
-  .then(result =>{
+  .then(result => {
     if(result === null){
       res.json('Not today loser');
-    } else{
+    } else {
     res.json(result);
     }
   });
 });
 
-router.delete('/:id', (req, res) =>{
+router.delete('/:id', (req, res) => {
   let id = req.params.id;
   return Images.destroy({where: {id: id}})
-  .then(result =>{
+  .then(result => {
     console.log('results from delete:',result);
     res.end();
   });

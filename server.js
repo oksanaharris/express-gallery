@@ -6,9 +6,19 @@ const app = express();
 const PORT = process.env.PORT || 9000;
 const bodyParser = require('body-parser');
 const imageRouter = require('./routes/image_routes');
+const expressHb = require('express-handlebars');
+const hbs = expressHb.create({
+  defaultLayout: 'main',
+  extname:'hbs'
+});
+
+app.engine('hbs', hbs.engine);
+app.set('view engine', 'hbs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use('/gallery', imageRouter);
+
+app.use(express.static('public'));
 
 const db = require('./models');
 
