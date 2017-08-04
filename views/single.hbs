@@ -1,5 +1,5 @@
 {{!-- <h1>Hello World!</h1> --}}
-
+{{>header}}
 <div class="pageContainer">
   <div class="titleContainer">
    <h1 class="pageTitle">_ARCATEKT</h1>
@@ -11,11 +11,12 @@
       <div class="mainImageTitleSingle">{{targetImage.author}} - {{targetImage.url}}</div>
       <div class="mainImageSingle" style="background-image:url({{targetImage.url}})">
         {{#if targetImage.ownedByUser}}
-          <div class="imageModal"></div>
-          <div class="editLink">
-            {{!-- <a href="/gallery/{{targetImage.dataValues.id}}">DELETE</a> --}}
-            <form class= "deleteLink" action="/gallery/{{targetImage.id}}?_method=DELETE" method="POST" enctype ="application/x-www-form-urlencoded"><button class="deleteLink" type="submit">DELETE</button></form>
-            <a href="/gallery/{{targetImage.id}}/edit">EDIT</a>
+          <div class="imageModalContainer">
+            <div class="imageModal"></div>
+            <div class="modalLinkContainer">
+              <form action="/gallery/{{targetImage.id}}?_method=DELETE" method="POST" enctype ="application/x-www-form-urlencoded"><button class="deleteLink" type="submit">DELETE</button></form>
+              <a class="editLink" href="/gallery/{{targetImage.id}}/edit">EDIT</a>
+            </div>
           </div>
         {{/if}}
       </div>

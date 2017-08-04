@@ -11,13 +11,14 @@ const Authors = db.Authors;
 
 
 router.get('/', (req, res)=> {
-  console.log('THIS IS OUR USER ID FROM GET TO GALLERY', req.user.id, req.user.username);
+  let user = req.user;
+
   Images.findAll({
-    include: [ Authors ]
+    include: [ Authors ],
+    order: ['id']
   })
   .then((images)=>{
-    // images.forEach(image => console.log('IMAGE', image.Author.dataValues.name));
-    // console.log('HERE ARE OUR IMAGES',
+
     if(req.headers.hasOwnProperty('accept') && req.headers.accept.match(/json/)) {
       res.json(images);
     } else {
@@ -36,6 +37,8 @@ router.get('/', (req, res)=> {
         otherImages: otherImages
       }
 
+      if(user){allViewObj.authenticated = true;};
+
       return res.render('all', allViewObj);
     }
   })
@@ -47,7 +50,11 @@ router.get('/', (req, res)=> {
 
 
 router.get('/new', (req, res) => {
-  res.render('newForm');
+  let user = req.user;
+  let header = {authenticated: false}
+  if (!user) { res.send('Please log in to upload images.'); }
+  else if (user){header.authenticated = true;};
+  res.render('newForm', header);
 });
 
 
@@ -135,8 +142,10 @@ router.get('/:id/edit', (req, res) => {
 
   return Images.findById(targetId, {include: [ Authors ]})
   .then(image => {
-    if (!image) {throw new Error('Error - trying to edit an image that does not exist.');};
-    if (image.user_id !== user.id) {throw new Error ('Trying to edit someone else\'s image is not nice.');};
+    if (!image) { throw new Error('Error - trying to edit an image that does not exist.'); }
+    if (!user) { throw new Error('Please sign in to make edits to your images.'); }
+    else if (image.user_id !== user.id) {throw new Error ('Trying to edit someone else\'s image is not nice.'); }
+    image.authenticated = true;
     return res.render('editForm', image);
   })
   .catch((error) => {
@@ -160,22 +169,22 @@ router.get('/:id', (req, res) => {
     if(!image){
       throw new Error ('Error - image with that id does not exist');
     } else {
-      let ownedByUser = (image.user_id === user.id);
+      let ownedByUser = user && (image.user_id === user.id);
       let targetImage = {id: image.id, url: image.url, description: image.description, user_id: image.user_id, author: image.Author.name, ownedByUser: ownedByUser};
       return singleViewObj.targetImage = targetImage;
     }
   })
   .then(() => {
-    return Images.findAll({ include: [ Authors ]})
+    return Images.findAll({ where: {id : {$ne: targetId}}, include: [ Authors ]})
   })
   .then(images => {
-    let otherImages = images.filter((image) => {
-      return image.id !== targetId;
-    }).map((image, index, array) => {
+    let otherImages = images.map((image, index, array) => {
       return {id: image.id, url: image.url, description: image.description, user_id: image.user_id, author: image.Author.name};
-    })
+    });
 
     singleViewObj.otherImages = otherImages;
+
+    if (user) {singleViewObj.authenticated = true;};
 
     res.render('single', singleViewObj);
   })

@@ -53,16 +53,16 @@
       app.use(passport.session());
 
       passport.use(new LocalStrategy((username, password, done) => {
-        return Users.findAll({where: {username: username}})
-        .then(results => {
-          if(results.length === 0){
+        return Users.findOne({where: {username: username}})
+        .then(result => {
+          if(result === null){
             return done(null, false, {message: 'No user with that username'});
           }
 
-          if(password !== results[0].password){
+          if(password !== result.password){
             return done(null, false, {message: 'Incorrect password'});
           }
-          return done(null, results[0]);
+          return done(null, result);
         });
       }));
 

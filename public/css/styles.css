@@ -8,6 +8,50 @@ body {
   /*background-color: yellow;*/
   color: grey; }
 
+.hoverNav {
+  /*background-color: yellow;*/
+  height: 50px; }
+
+.hoverNav:hover .slideOutNav {
+  top: 0; }
+
+.slideOutNav {
+  /*background-color: red;*/
+  height: 50px;
+  position: relative;
+  top: -50px;
+  transition: top 0.5s ease-out;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-top: 10px;
+  padding-right: 20px; }
+
+.navElements {
+  height: 30px;
+  line-height: 30px;
+  font-size: 20px;
+  font-family: Arial;
+  margin: 0 10px;
+  background: none;
+  border: none;
+  color: grey;
+  cursor: pointer;
+  text-decoration: none; }
+
+.navElements:hover {
+  color: black; }
+
+.or {
+  /*background-color: green;*/
+  line-height: 30px;
+  height: 30px;
+  font-size: 20px;
+  font-family: Arial;
+  margin: 0 10px;
+  color: grey;
+  cursor: auto; }
+
 .titleContainer {
   /*background-color: red;*/
   width: 70%;
@@ -102,55 +146,53 @@ body {
   background-size: cover;
   vertical-align: bottom;
   display: flex;
-  align-items: flex-end; }
+  align-items: flex-end;
+  overflow: hidden; }
 
-.mainImageSingle:hover .imageModal {
-  display: block; }
+.mainImageSingle:hover .imageModalContainer {
+  display: block;
+  bottom: 0; }
 
-.mainImageSingle:hover .editLink a {
-  display: inline; }
-
-.mainImageSingle:hover .editLink {
-  display: flex; }
-
-.mainImageSingle:hover .deleteLink {
-  display: inline; }
+.imageModalContainer {
+  height: 40px;
+  width: 100%;
+  position: relative;
+  bottom: -40px;
+  transition: bottom 0.5s ease-out; }
 
 .imageModal {
-  display: none;
   height: 40px;
   width: 100%;
   background-color: black;
-  /*line-height: 300px;*/
-  /*vertical-align: bottom;*/
-  /*position: relative;*/
-  /*bottom: -260px;*/
   opacity: .6;
   color: white; }
 
-.editLink {
-  display: none;
-  position: absolute;
-  width: 700px;
-  /*bottom: -230px;*/
-  color: red;
+.modalLinkContainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   padding-right: 20px;
+  /*padding-bottom: 12px;*/
+  padding-top: 12px;
   font-size: 14px;
-  padding-bottom: 12px; }
-  .editLink a {
-    color: white;
-    text-decoration: none;
-    /*background-color: yellow;*/
-    display: none; }
+  height: 40px;
+  width: 100%;
+  /*background-color: green;*/
+  position: absolute;
+  top: 0; }
+
+.editLink {
+  display: inline;
+  color: white;
+  text-decoration: none;
+  /*background-color: yellow;*/
+  padding: 0;
+  margin: 0; }
 
 .deleteLink {
-  display: none;
-  /*display: inline;*/
-  background-color: purple;
-  margin-right: 10px;
+  display: inline;
+  margin-right: 15px;
+  /*background-color: purple;*/
   background: none;
   border: none;
   color: white;
