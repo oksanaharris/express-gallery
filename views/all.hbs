@@ -7,16 +7,18 @@
   </div>
 
   <div class="galleryContainer">
-    <div class="mainImage" style="background-image:url({{firstImage.dataValues.url}})"></div>
+    <div class="mainImage" style="background-image:url({{firstImage.url}})"></div>
 
+    <div class="otherImagesContainer">
     {{#each otherImages}}
       <div class="imageContainer">
-        <a href="/gallery/{{dataValues.id}}"><div class="image" style="background-image:url({{dataValues.url}})"></div></a>
+        <a href="/gallery/{{id}}"><div class="image" style="background-image:url({{url}})"></div></a>
         <div class="imageDetails">
-          <p class="imageAuthor">{{Author.dataValues.name}}</p>
-          <p class="imageUrl">{{dataValues.url}}</p>
+          <p class="imageAuthor">{{author}}</p>
+          <p class="imageUrl">{{url}}</p>
         </div>
       </div>
     {{/each}}
-   </div>
+    </div>
+  </div>
 </div>

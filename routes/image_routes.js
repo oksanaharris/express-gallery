@@ -11,6 +11,7 @@ const Authors = db.Authors;
 
 
 router.get('/', (req, res)=> {
+  console.log('THIS IS OUR USER ID FROM GET TO GALLERY', req.user.id, req.user.username);
   Images.findAll({
     include: [ Authors ]
   })
@@ -20,8 +21,14 @@ router.get('/', (req, res)=> {
     if(req.headers.hasOwnProperty('accept') && req.headers.accept.match(/json/)) {
       res.json(images);
     } else {
-      let firstImage = images[0];
-      let otherImages = images;
+
+      let firstImage = {id: images[0].id, url: images[0].url, author: images[0].Author.name};
+      let otherImages = []
+
+      images.forEach(image => {
+        return otherImages.push({id: image.id, url: image.url, author: image.Author.name});
+      });
+
       otherImages.shift();
 
       let allViewObj = {
@@ -29,40 +36,50 @@ router.get('/', (req, res)=> {
         otherImages: otherImages
       }
 
-      res.render('all', allViewObj);
+      return res.render('all', allViewObj);
     }
+  })
+  .catch((error) => {
+    console.log ('here is our error', error);
+    return res.status(400).send(error.message);
   });
 });
 
-router.post('/', (req, res)=>{
-  var data = req.body;
-  var author = data.author;
 
-  return Images.findAll({where: {url: data.url}})
-  .then(result => {
-    if(result.length !== 0){
+router.get('/new', (req, res) => {
+  res.render('newForm');
+});
+
+
+router.post('/', (req, res)=>{
+  let image = req.body;
+  let author = image.author;
+  let user = req.user;
+
+  return Images.findAll({where: {url: image.url}})
+  .then(images => {
+    if(images.length !== 0){
       throw new Error('An image with this url already exists');
     } else {
       return Authors.findAll({where: {name: author}});
     }
   })
-  .then(result => {
-    console.log("result:", result);
-    if(result.length === 0){
-      //return makes it accessible in then statement below.
+  .then(authors => {
+    if(authors.length === 0){
       return Authors.create({name: author});
     } else {
-      return result[0];
+      return authors[0];
     }
   })
-  .then(result => {
-    return result.dataValues.id;
+  .then(author => {
+    return author.id;
   })
-  .then(id => {
-    return Images.create({url: data.url, description: data.description, authors_id: id});
+  .then(authorId => {
+    return Images.create({url: image.url, description: image.description, authors_id: authorId, user_id: user.id});
   })
   .then(result => {
-    return res.json(result);
+    // return res.json(result);
+    res.redirect('/gallery');
   })
   .catch((error) => {
     console.log ('here is our error', error);
@@ -73,19 +90,31 @@ router.post('/', (req, res)=>{
 
 router.put('/:id', (req, res) => {
   let data = req.body;
-  let id = req.params.id;
+  let targetId = req.params.id;
+  let user = req.user;
+  let authorId;
 
-  return Images.findById(id)
-  .then(result => {
-
-    if (result === null){
-      throw new Error('Error - trying to edit a record that does not exist.');
+  return Authors.findAll({where: {name: data.author}})
+  .then (authors => {
+    if (authors.length === 0){
+      return Authors.create({name: data.author});
     } else {
-      return result.update({url: data.url, description: data.description});
+      return authors[0];
     }
   })
+  .then(author => {
+    return authorId = author.id;
+  })
+  .then (() => {
+    return Images.findById(targetId, {include: [Authors]});
+  })
+  .then(image => {
+    if (!image){throw new Error('Error - trying to edit an image that does not exist.');};
+    if (image.user_id !== user.id) {throw new Error ('Trying to edit someone else\'s image is not nice.');};
+    return image.update({url: data.url, description: data.description, authors_id: authorId});
+  })
   .then (result => {
-    return res.redirect('/gallery/'+id);
+    return res.redirect('/gallery/'+targetId);
     // return res.json(result);
   })
   .catch((error) => {
@@ -94,9 +123,10 @@ router.put('/:id', (req, res) => {
   });
 });
 
+
 router.get('/:id/edit', (req, res) => {
   let targetId = parseInt(req.params.id);
-
+  let user = req.user;
 
   let allViewObj = {
     targetImage: {},
@@ -104,13 +134,10 @@ router.get('/:id/edit', (req, res) => {
   };
 
   return Images.findById(targetId, {include: [ Authors ]})
-  .then(result => {
-
-    if (result === null){
-      throw new Error('Error - trying to edit a record that does not exist.');
-    } else {
-      res.render('editForm', result);
-    }
+  .then(image => {
+    if (!image) {throw new Error('Error - trying to edit an image that does not exist.');};
+    if (image.user_id !== user.id) {throw new Error ('Trying to edit someone else\'s image is not nice.');};
+    return res.render('editForm', image);
   })
   .catch((error) => {
     console.log ('here is our error', error);
@@ -118,29 +145,39 @@ router.get('/:id/edit', (req, res) => {
   });
 });
 
+
 router.get('/:id', (req, res) => {
   let targetId = parseInt(req.params.id);
-  let allViewObj = {
+  let user = req.user;
+
+  let singleViewObj = {
     targetImage: {},
-    otherImages: []
+    otherImages: [],
   };
 
   return Images.findById(targetId, {include: [ Authors ]})
-  .then(result => {
-    if(result === null){
+  .then(image => {
+    if(!image){
       throw new Error ('Error - image with that id does not exist');
     } else {
-      return allViewObj.targetImage = result;
+      let ownedByUser = (image.user_id === user.id);
+      let targetImage = {id: image.id, url: image.url, description: image.description, user_id: image.user_id, author: image.Author.name, ownedByUser: ownedByUser};
+      return singleViewObj.targetImage = targetImage;
     }
   })
-  .then((result) => {
+  .then(() => {
     return Images.findAll({ include: [ Authors ]})
   })
   .then(images => {
-    allViewObj.otherImages = images.filter((image) => {
-      return image.dataValues.id !== targetId;
-    });
-    res.render('single', allViewObj);
+    let otherImages = images.filter((image) => {
+      return image.id !== targetId;
+    }).map((image, index, array) => {
+      return {id: image.id, url: image.url, description: image.description, user_id: image.user_id, author: image.Author.name};
+    })
+
+    singleViewObj.otherImages = otherImages;
+
+    res.render('single', singleViewObj);
   })
   .catch(error => {
     console.log ('here is our error', error);
@@ -148,29 +185,26 @@ router.get('/:id', (req, res) => {
   });
 });
 
-router.get('/new', (req, res) => {
-  res.render('newForm');
-});
 
 router.delete('/:id', (req, res) => {
-  console.log('DELETE ROUTE is being hit');
-  let id = req.params.id;
-  return Images.destroy({where: {id: id}})
-  .then(result => {
-    console.log('results from delete:',result);
+  let targetId = req.params.id;
+
+  let user = req.user;
+    console.log('this is our logged in user', user);
+
+  return Images.findById(targetId)
+  .then(image => {
+    if (!image) {throw new Error('Error - trying to delete an image that does not exist.');};
+    if (user === undefined || image.user_id !== user.id) {throw new Error ('Trying to delete someone else\'s image is not nice.');};
+    return Images.destroy({where: {id: targetId}});
+  })
+  .then(deletedImage => {
     return res.redirect('/gallery');
   }).catch(error => {
     console.log ('here is our error', error);
     return res.status(400).send(error.message);
   });
 });
-
-
-
-
-
-
-
 
 
 module.exports = router;

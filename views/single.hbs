@@ -8,23 +8,25 @@
 
   <div class="galleryContainerSingle">
     <div class="mainImageContainerSingle">
-      <div class="mainImageTitleSingle">{{targetImage.Author.dataValues.name}} - {{targetImage.dataValues.url}}</div>
-      <div class="mainImageSingle" style="background-image:url({{targetImage.dataValues.url}})">
-        <div class="imageModal"></div>
-        <div class="editLink">
-          {{!-- <a href="/gallery/{{targetImage.dataValues.id}}">DELETE</a> --}}
-          <form class= "deleteLink" action="/gallery/{{targetImage.dataValues.id}}?_method=DELETE" method="POST" enctype ="application/x-www-form-urlencoded"><button class="deleteLink" type="submit">DELETE</button></form>
-          <a href="/gallery/{{targetImage.dataValues.id}}/edit">EDIT</a>
-        </div>
+      <div class="mainImageTitleSingle">{{targetImage.author}} - {{targetImage.url}}</div>
+      <div class="mainImageSingle" style="background-image:url({{targetImage.url}})">
+        {{#if targetImage.ownedByUser}}
+          <div class="imageModal"></div>
+          <div class="editLink">
+            {{!-- <a href="/gallery/{{targetImage.dataValues.id}}">DELETE</a> --}}
+            <form class= "deleteLink" action="/gallery/{{targetImage.id}}?_method=DELETE" method="POST" enctype ="application/x-www-form-urlencoded"><button class="deleteLink" type="submit">DELETE</button></form>
+            <a href="/gallery/{{targetImage.id}}/edit">EDIT</a>
+          </div>
+        {{/if}}
       </div>
-      <div class="mainImageDescriptionSingle">{{targetImage.dataValues.description}}</div>
+      <div class="mainImageDescriptionSingle">{{targetImage.description}}</div>
     </div>
 
     <div class="sliderContainerSingle">
     {{#each otherImages}}
       <div class="imageContainerSingle">
-        <a href="/gallery/{{dataValues.id}}"><div class="imageSingle" style="background-image:url({{dataValues.url}})"></div></a>
-        <div class="imageDetailsSingle">{{Author.dataValues.name}} - {{dataValues.url}}</div>
+        <a href="/gallery/{{id}}"><div class="imageSingle" style="background-image:url({{url}})"></div></a>
+        <div class="imageDetailsSingle">{{author}} - {{url}}</div>
       </div>
     {{/each}}
     </div>

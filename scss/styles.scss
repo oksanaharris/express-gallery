@@ -5,37 +5,42 @@
   font-family: Arial;
 }
 body {
-  background-color: yellow;
+  /*background-color: yellow;*/
+  color: grey;
 }
 
 .titleContainer {
-  background-color: red;
+  /*background-color: red;*/
   width: 70%;
   margin: auto;
   margin-top: 100px;
   margin-bottom: 80px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .pageTitle{
-  width: 60%;
-  background-color: grey;
-  display: inline;
-  vertical-align: top;
+  /*width: 60%;*/
+  /*background-color: grey;*/
+  /*display: inline;*/
+  /*vertical-align: top;*/
   font-size: 90px;
 }
 
 .pageDescription{
   padding-top: 15px;
-  padding-left: 10px;
-  width: 39%;
-  background-color: maroon;
-  display: inline-block;
-  font-size: 18px;
+  padding-left: 30px;
+  /*width: 45%;*/
+  min-width: 440px;
+  /*float: right;*/
+  /*background-color: maroon;*/
+  /*display: inline-block;*/
+  font-size: 16px;
 
 }
 
 .galleryContainer {
-  background-color: green;
+  /*background-color: green;*/
   width: 70%;
   margin: auto;
 }
@@ -47,9 +52,18 @@ body {
  margin-bottom: 50px;
 }
 
+.otherImagesContainer{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 .imageContainer {
-  background-color: purple;
+  /*background-color: purple;*/
   display: inline-block;
+  margin-bottom: 40px;
+  /*border-top: 1px solid grey;*/
 }
 
 .image {
@@ -59,52 +73,82 @@ body {
 }
 
 .imageDetails {
-  /*padding-left: 20px;*/
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.imageDetails > * {
+  margin: 2px;
 }
 
 .pageContainer {
-
+  /*background-color: red;*/
+  margin-bottom: 200px;
 }
+
 .titleContainer {
-
 }
+
 .pageTitle {
 
 }
+
 .pageDescription {
 
 }
+
 .galleryContainerSingle {
   width: 70%;
   height: 600px;
-  background-color: green;
+  /*background-color: green;*/
   margin: auto;
   overflow: auto;
+  display: flex;
+  justify-content: space-between;
+  /*padding-top: 30px;*/
 }
+
 .mainImageContainerSingle {
-  width: 60%;
-  height: 600px;
-  background-color: orange;
+  /*width: 60%;*/
+  /*height: 600px;*/
+  /*background-color: orange;*/
   display: inline-block;
-  float: left;
+  /*float: left;*/
 
 }
 .mainImageTitleSingle {
+  height: 30px;
+  padding-top: 5px;
 
 }
 .mainImageSingle {
-  width: 100%;
-  height: 300px;
+  width: 700px;
+  height: 400px;
   background-size: cover;
   vertical-align: bottom;
+  display: flex;
+  align-items: flex-end;
 }
 
 .mainImageSingle:hover {
   .imageModal {
     display: block;
   }
+
   .editLink {
-    display: block;
+    a {
+      display: inline;
+    }
+  }
+
+  .editLink {
+    display: flex;
+  }
+
+  .deleteLink {
+    display: inline;
   }
 }
 
@@ -113,33 +157,39 @@ body {
   height: 40px;
   width: 100%;
   background-color: black;
-  line-height: 300px;
-  vertical-align: bottom;
-  position: relative;
-  bottom: -260px;
+  /*line-height: 300px;*/
+  /*vertical-align: bottom;*/
+  /*position: relative;*/
+  /*bottom: -260px;*/
   opacity: .6;
   color: white;
 }
 
 .editLink {
   display: none;
-  position: relative;
-  bottom: -230px;
-  color: white;
-  text-align: right;
+  position: absolute;
+  width: 700px;
+  /*bottom: -230px;*/
+  color: red;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
   padding-right: 20px;
   font-size: 14px;
+  padding-bottom: 12px;
 
   a {
     color: white;
     text-decoration: none;
-    /*background-color: purple;*/
-    display: inline;
+    /*background-color: yellow;*/
+    display: none;
   }
 }
 
 .deleteLink {
-    display: inline;
+    display: none;
+    /*display: inline;*/
+    background-color: purple;
     margin-right: 10px;
     background: none;
     border: none;
@@ -153,28 +203,37 @@ body {
 }
 
 .mainImageDescriptionSingle {
-
+  margin-top: 10px;
 }
 
 .sliderContainerSingle {
-  background-color: pink;
-  width: 39%;
-  height: 600px;
+  margin-top: 30px;
+  /*background-color: pink;*/
+  /*width: 39%;*/
+  /*height: 600px;*/
   overflow: auto;
-  display: inline-block;
-  float: right;
-  vertical-align: top;
-  clear: right;
+  /*display: inline-block;*/
+  /*float: right;*/
+  /*vertical-align: top;*/
+  /*clear: right;*/
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
+
 .imageContainerSingle {
   width: 80%;
   margin: auto;
+  margin-bottom: 20px;
+  min-width: 300px;
 }
+
 .imageSingle {
   width: 100%;
   height: 200px;
   background-size: cover;
   background-position: center;
+  margin-bottom: 5px;
 }
 
 .imageDetailsSingle {
