@@ -52,11 +52,15 @@ body {
   color: grey;
   cursor: auto; }
 
+.pageContainer {
+  /*background-color: red;*/
+  margin-bottom: 200px; }
+
 .titleContainer {
   /*background-color: red;*/
-  width: 70%;
+  width: 1060px;
   margin: auto;
-  margin-top: 100px;
+  margin-top: 50px;
   margin-bottom: 80px;
   display: flex;
   justify-content: space-between; }
@@ -72,7 +76,7 @@ body {
   padding-top: 15px;
   padding-left: 30px;
   /*width: 45%;*/
-  min-width: 440px;
+  min-width: 460px;
   /*float: right;*/
   /*background-color: maroon;*/
   /*display: inline-block;*/
@@ -80,7 +84,7 @@ body {
 
 .galleryContainer {
   /*background-color: green;*/
-  width: 70%;
+  width: 1060px;
   margin: auto; }
 
 .mainImage {
@@ -115,16 +119,12 @@ body {
 .imageDetails > * {
   margin: 2px; }
 
-.pageContainer {
-  /*background-color: red;*/
-  margin-bottom: 200px; }
-
 .galleryContainerSingle {
-  width: 70%;
+  width: 1060px;
   height: 600px;
   /*background-color: green;*/
   margin: auto;
-  overflow: auto;
+  /*overflow: auto;*/
   display: flex;
   justify-content: space-between;
   /*padding-top: 30px;*/ }
@@ -134,6 +134,8 @@ body {
   /*height: 600px;*/
   /*background-color: orange;*/
   display: inline-block;
+  margin-right: 40px;
+  min-width: 700px;
   /*float: left;*/ }
 
 .mainImageTitleSingle {
@@ -208,26 +210,94 @@ body {
 .sliderContainerSingle {
   margin-top: 30px;
   /*background-color: pink;*/
-  /*width: 39%;*/
-  /*height: 600px;*/
+  height: 600px;
   overflow: auto;
-  /*display: inline-block;*/
-  /*float: right;*/
-  /*vertical-align: top;*/
-  /*clear: right;*/
   display: flex;
   flex-direction: column;
   justify-content: flex-start; }
 
+.sliderTopGradient {
+  display: block;
+  background-color: red;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.78), transparent 50%);
+  height: 150px;
+  position: relative;
+  bottom: 600px; }
+
+.sliderBottomGradient {
+  display: block;
+  /*background-color: red;*/
+  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.78));
+  height: 150px;
+  position: relative;
+  bottom: 300px; }
+
 .imageContainerSingle {
-  width: 80%;
+  width: 300px;
   margin: auto;
+  margin-top: 0;
   margin-bottom: 20px;
   min-width: 300px; }
 
 .imageSingle {
-  width: 100%;
+  width: 300px;
   height: 200px;
   background-size: cover;
   background-position: center;
   margin-bottom: 5px; }
+
+@media (max-width: 750px) {
+  .pageContainer {
+    margin-bottom: 20px;
+    width: 100%; }
+  .pageDescription {
+    display: none; }
+  .titleContainer {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px; }
+  .pageTitle {
+    margin: auto;
+    width: 100%;
+    text-align: center;
+    font-size: 48px; }
+  .hoverNav {
+    display: none; }
+  .galleryContainer {
+    /*background-color: green;*/
+    width: 100%; }
+  .galleryContainerSingle {
+    /*background-color: green;*/
+    width: 100%;
+    display: block; }
+  .rightSide {
+    display: none; }
+  .mainImage {
+    width: 80%;
+    margin: auto;
+    height: 200px;
+    margin-bottom: 20px; }
+  .mainImageContainerSinge {
+    width: 100%; }
+  .mainImageSingle {
+    width: 300px;
+    height: 200px;
+    display: block; }
+  .imageContainer {
+    margin: auto;
+    width: 280px;
+    margin: auto;
+    margin-top: 0;
+    margin-bottom: 10px; }
+  .image {
+    width: 280px;
+    height: 190px; }
+  .imageDetails {
+    margin-top: 5px;
+    height: 20px;
+    font-size: 14px;
+    display: block; }
+  .imageDetails > * {
+    margin: 1px;
+    display: inline; } }

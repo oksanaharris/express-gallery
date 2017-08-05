@@ -23,13 +23,17 @@
       <div class="mainImageDescriptionSingle">{{targetImage.description}}</div>
     </div>
 
-    <div class="sliderContainerSingle">
-    {{#each otherImages}}
-      <div class="imageContainerSingle">
-        <a href="/gallery/{{id}}"><div class="imageSingle" style="background-image:url({{url}})"></div></a>
-        <div class="imageDetailsSingle">{{author}} - {{url}}</div>
+    <div class="rightSide">
+      <div class="sliderContainerSingle">
+        {{#each otherImages}}
+          <div class="imageContainerSingle">
+            <a href="/gallery/{{id}}"><div class="imageSingle" style="background-image:url({{url}})"></div></a>
+            <div class="imageDetailsSingle">{{author}} - {{url}}</div>
+          </div>
+        {{/each}}
       </div>
-    {{/each}}
+      <div class="sliderTopGradient"></div>
+      <div class="sliderBottomGradient"></div>
     </div>
   </div>
 </div>
