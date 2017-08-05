@@ -1,0 +1,39 @@
+{{!-- <h1>Hello World!</h1> --}}
+{{>header}}
+<div class="pageContainer">
+  <div class="titleContainer">
+   <h1 class="pageTitle">_ARCATEKT</h1>
+   <p class="pageDescription">Welcome to our online portfolio, we are a small group of passionate designers and architects, looking to change and create amazing digital images to inspire others to follow in our innovative steps. Free Architect WordPress Theme</p>
+  </div>
+
+  <div class="galleryContainerSingle">
+    <div class="mainImageContainerSingle">
+      <div class="mainImageTitleSingle">{{targetImage.author}} - {{targetImage.url}}</div>
+      <div class="mainImageSingle" style="background-image:url({{targetImage.url}})">
+        {{#if targetImage.ownedByUser}}
+          <div class="imageModalContainer">
+            <div class="imageModal"></div>
+            <div class="modalLinkContainer">
+              <form action="/gallery/{{targetImage.id}}?_method=DELETE" method="POST" enctype ="application/x-www-form-urlencoded"><button class="deleteLink" type="submit">DELETE</button></form>
+              <a class="editLink" href="/gallery/{{targetImage.id}}/edit">EDIT</a>
+            </div>
+          </div>
+        {{/if}}
+      </div>
+      <div class="mainImageDescriptionSingle">{{targetImage.description}}</div>
+    </div>
+
+    <div class="rightSide">
+      <div class="sliderContainerSingle">
+        {{#each otherImages}}
+          <div class="imageContainerSingle">
+            <a href="/gallery/{{id}}"><div class="imageSingle" style="background-image:url({{url}})"></div></a>
+            <div class="imageDetailsSingle">{{author}} - {{url}}</div>
+          </div>
+        {{/each}}
+      </div>
+      <div class="sliderTopGradient"></div>
+      <div class="sliderBottomGradient"></div>
+    </div>
+  </div>
+</div>

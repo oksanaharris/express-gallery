@@ -1,0 +1,384 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Arial;
+}
+body {
+  /*background-color: yellow;*/
+  color: grey;
+}
+
+.hoverNav{
+  /*background-color: yellow;*/
+  height: 50px;
+}
+
+.hoverNav:hover {
+  .slideOutNav{
+    top: 0;
+  }
+}
+
+.slideOutNav {
+  /*background-color: red;*/
+  height: 50px;
+  position: relative;
+  top: -50px;
+  transition: top 0.5s ease-out;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-top: 10px;
+  padding-right: 20px;
+
+}
+
+.navElements {
+  height: 30px;
+  line-height: 30px;
+  font-size: 20px;
+  font-family: Arial;
+  margin: 0 10px;
+  background: none;
+  border: none;
+  color: grey;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.navElements:hover {
+  color: black;
+}
+
+.or {
+  /*background-color: green;*/
+  line-height: 30px;
+  height: 30px;
+  font-size: 20px;
+  font-family: Arial;
+  margin: 0 10px;
+  color: grey;
+  cursor: auto;
+}
+
+.pageContainer {
+  /*background-color: red;*/
+  margin-bottom: 200px;
+}
+
+.titleContainer {
+  /*background-color: red;*/
+  width: 1060px;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 80px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pageTitle{
+  /*width: 60%;*/
+  /*background-color: grey;*/
+  /*display: inline;*/
+  /*vertical-align: top;*/
+  font-size: 90px;
+}
+
+.pageDescription{
+  padding-top: 15px;
+  padding-left: 30px;
+  /*width: 45%;*/
+  min-width: 460px;
+  /*float: right;*/
+  /*background-color: maroon;*/
+  /*display: inline-block;*/
+  font-size: 16px;
+
+}
+
+.galleryContainer {
+  /*background-color: green;*/
+  width: 1060px;
+  margin: auto;
+}
+
+.mainImage {
+ width: 100%;
+ height: 500px;
+ background-size: cover;
+ margin-bottom: 50px;
+}
+
+.otherImagesContainer{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.imageContainer {
+  /*background-color: purple;*/
+  display: inline-block;
+  margin-bottom: 40px;
+  /*border-top: 1px solid grey;*/
+}
+
+.image {
+  width: 300px;
+  height: 200px;
+  background-position: center;
+}
+
+.imageDetails {
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.imageDetails > * {
+  margin: 2px;
+}
+
+.galleryContainerSingle {
+  width: 1060px;
+  height: 600px;
+  /*background-color: green;*/
+  margin: auto;
+  /*overflow: auto;*/
+  display: flex;
+  justify-content: space-between;
+  /*padding-top: 30px;*/
+}
+
+.mainImageContainerSingle {
+  /*width: 60%;*/
+  /*height: 600px;*/
+  /*background-color: orange;*/
+  display: inline-block;
+  margin-right: 40px;
+  min-width: 700px;
+  /*float: left;*/
+
+}
+.mainImageTitleSingle {
+  height: 30px;
+  padding-top: 5px;
+
+}
+.mainImageSingle {
+  width: 700px;
+  height: 400px;
+  background-size: cover;
+  vertical-align: bottom;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.mainImageSingle:hover {
+  .imageModalContainer {
+    display: block;
+    bottom: 0;
+  }
+}
+
+.imageModalContainer {
+  height: 40px;
+  width: 100%;
+  position: relative;
+  bottom: -40px;
+  transition: bottom 0.5s ease-out;
+}
+
+.imageModal {
+  height: 40px;
+  width: 100%;
+  background-color: black;
+  opacity: .6;
+  color: white;
+}
+
+.modalLinkContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: 20px;
+  /*padding-bottom: 12px;*/
+  padding-top: 12px;
+  font-size: 14px;
+  height: 40px;
+  width: 100%;
+  /*background-color: green;*/
+  position: absolute;
+  top: 0;
+}
+
+.editLink {
+  display: inline;
+  color: white;
+  text-decoration: none;
+  /*background-color: yellow;*/
+  padding: 0;
+  margin: 0;
+}
+
+.deleteLink {
+    display: inline;
+    margin-right: 15px;
+    /*background-color: purple;*/
+    background: none;
+    border: none;
+    color: white;
+    font-size: 14px;
+}
+
+.deleteLink:hover {
+  cursor: pointer;
+  /*background-color: green;*/
+}
+
+.mainImageDescriptionSingle {
+  margin-top: 10px;
+}
+
+.rightSide {
+
+}
+
+.sliderContainerSingle {
+  margin-top: 30px;
+  /*background-color: pink;*/
+  height: 600px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+
+.sliderTopGradient {
+  display: block;
+  background-color: red;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.78),rgba(0,0,0,0) 50%);
+  height: 150px;
+  position: relative;
+  bottom: 600px;
+}
+
+.sliderBottomGradient {
+  display: block;
+  /*background-color: red;*/
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 50%,rgba(0,0,0,0.78));
+  height: 150px;
+  position: relative;
+  bottom: 300px;
+}
+
+.imageContainerSingle {
+  width: 300px;
+  margin: auto;
+  margin-top: 0;
+  margin-bottom: 20px;
+  min-width: 300px;
+}
+
+.imageSingle {
+  width: 300px;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 5px;
+}
+
+.imageDetailsSingle {
+
+}
+
+@media (max-width: 750px){
+  .pageContainer {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  .pageDescription {
+    display: none;
+  }
+
+  .titleContainer {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .pageTitle {
+    margin: auto;
+    width: 100%;
+    text-align: center;
+    font-size: 48px;
+  }
+
+  .hoverNav{
+    display: none;
+  }
+
+  .galleryContainer {
+    /*background-color: green;*/
+    width: 100%
+  }
+
+  .galleryContainerSingle {
+    /*background-color: green;*/
+    width: 100%;
+    display: block;
+  }
+
+  .rightSide {
+    display: none;
+  }
+
+  .mainImage {
+    width: 80%;
+    margin: auto;
+    height: 200px;
+    margin-bottom: 20px;
+  }
+
+  .mainImageContainerSinge {
+    width: 100%;
+  }
+
+  .mainImageSingle {
+    width: 300px;
+    height: 200px;
+    display: block;
+  }
+
+
+  .imageContainer {
+    margin: auto;
+    width: 280px;
+    margin: auto;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  .image {
+    width: 280px;
+    height: 190px;
+  }
+
+  .imageDetails {
+    margin-top: 5px;
+    height: 20px;
+    font-size: 14px;
+    display: block;
+  }
+
+  .imageDetails > * {
+    margin: 1px;
+    display: inline;
+  }
+}
