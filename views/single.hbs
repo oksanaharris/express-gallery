@@ -21,6 +21,11 @@
         {{/if}}
       </div>
       <div class="mainImageDescriptionSingle">{{targetImage.description}}</div>
+      <ul class="mainImageMeta">
+        {{#each targetImage.meta}}
+          <li>{{@key}}: {{this}}</li>
+        {{/each}}
+      </ul>
     </div>
 
     <div class="rightSide">
