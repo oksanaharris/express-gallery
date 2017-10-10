@@ -1,0 +1,15 @@
+
+<div class="hoverNav">
+  <nav class="slideOutNav">
+    {{#if authenticated}}
+      <a class="gallery navElements" href="/gallery">Gallery</a>
+      <a class="uploadImg navElements" href="/gallery/new">Upload Image</a>
+      <a class="logOut navElements" href="/logout">Sign Out</a>
+    {{else}}
+      <a class="gallery navElements" href="/gallery">Gallery</a>
+      <a class="signInBtn navElements" href="/login">Sign In</a>
+      <span class="or">or</span>
+      <a class="registerBtn navElements" href="/register">Register</a>
+    {{/if}}
+  </nav>
+</div>
