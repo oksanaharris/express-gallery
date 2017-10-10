@@ -243,7 +243,15 @@ router.delete('/:id', (req, res) => {
     if (user === undefined || image.user_id !== user.id) {throw new Error ('Trying to delete someone else\'s image is not nice.');};
     return Images.destroy({where: {id: targetId}});
   })
-  .then(deletedImage => {
+  .then(() => {
+    return photoMetas().findOne({photoId: targetId.toString()});
+  })
+  .then(mongoRecord => {
+    if(mongoRecord){
+      return photoMetas().remove({_id: mongoRecord._id});
+    }
+  })
+  .then((result) => {
     return res.redirect('/gallery');
   }).catch(error => {
     console.log ('here is our error', error);

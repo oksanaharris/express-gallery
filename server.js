@@ -45,7 +45,7 @@
         store: new RedisStore(),
         secret: 'keyboard cat',
         resave: false,
-        saveUninitiazlied: false
+        saveUninitialized: false
       }));
 
 
