@@ -1,21 +1,26 @@
 {{>header}}
-<div class="pageContainer">
-  <form action="/gallery/{{dataValues.id}}?_method=PUT" class="editForm" method="POST" enctype ="application/x-www-form-urlencoded">
+<div class="pageContainerForm">
+  <form action="/gallery/{{id}}?_method=PUT" class="editForm" method="POST" enctype ="application/x-www-form-urlencoded">
     <label for="author">Author: </label>
-    <input type = "text" name="author" value="{{Author.dataValues.name}}">
+    <input type = "text" name="author" value="{{author}}">
     <br>
     <br>
     <label for="url">Image url: </label>
-    <input type = "text" name="url" value="{{dataValues.url}}">
+    <input type = "text" name="url" value="{{url}}">
     <br>
     <br>
     <label for="description">Description: </label>
-    <input type = "text" name="description" value="{{dataValues.description}}">
+    <input type = "text" name="description" value="{{description}}">
     <br>
     <br>
-    <input type="hidden" name="id" value="{{dataValues.id}}">
-    <input type = "submit" name="submit" value="submit">
-
+    <ul id="mainImageMeta"></ul>
+    <br>
+    <button id="addMetaFieldsBtn" type="button">Add Meta Fields</button>
+    <br>
+    <input type = "submit" value="submit">
   </form>
-
 </div>
+<script>
+  var initialMeta = JSON.parse('{{{meta}}}');
+</script>
+<script src="/metaFieldsEdit.js"></script>

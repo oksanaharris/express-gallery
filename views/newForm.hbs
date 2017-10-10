@@ -1,5 +1,5 @@
 {{>header}}
-<div class="pageContainer">
+<div class="pageContainerForm">
   <form action="/gallery" class="newForm" method="POST" enctype ="application/x-www-form-urlencoded">
     <label for="author">Author: </label>
     <input type = "text" name="author" placeholder="author name">
@@ -13,6 +13,17 @@
     <input type = "text" name="description" placeholder="description">
     <br>
     <br>
+
+    <ul id="metaFieldsList"></ul>
+
+    <button id="addMetaFieldsBtn" type="button">Add Meta Fields</button>
+
+    <br>
+    <br>
+
     <input type = "submit" name="submit" placeholder="submit">
+
   </form>
+
+  <script src="/metaFields.js"></script>
 </div>

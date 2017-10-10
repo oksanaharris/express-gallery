@@ -6,6 +6,8 @@ const db = require('../models');
 const Images = db.Images;
 const Authors = db.Authors;
 
+const photoMetas = require('../collections/').photoMetas;
+
 // Images.belongsTo(Authors, {as : 'authors_id'});
 // Authors.hasMany(Images);
 
@@ -84,8 +86,14 @@ router.post('/', (req, res)=>{
   .then(authorId => {
     return Images.create({url: image.url, description: image.description, authors_id: authorId, user_id: user.id});
   })
-  .then(result => {
-    // return res.json(result);
+  .then(image => {
+    // return res.json(image);
+    // save the meta to mongo here
+    console.log('HERE IS OUR META', req.body.meta);
+    if (req.body.meta) {
+      req.body.meta.photoId = image.id;
+      photoMetas().insert(req.body.meta);
+    }
     res.redirect('/gallery');
   })
   .catch((error) => {
@@ -100,6 +108,8 @@ router.put('/:id', (req, res) => {
   let targetId = req.params.id;
   let user = req.user;
   let authorId;
+
+  console.log('REQ BODY from PUT REQUEST', req.body);
 
   return Authors.findAll({where: {name: data.author}})
   .then (authors => {
@@ -120,7 +130,20 @@ router.put('/:id', (req, res) => {
     if (image.user_id !== user.id) {throw new Error ('Trying to edit someone else\'s image is not nice.');};
     return image.update({url: data.url, description: data.description, authors_id: authorId});
   })
-  .then (result => {
+  .then ((image) => {
+    return photoMetas().findOne({photoId : image.id.toString()});
+  })
+  .then ((mongoRecord) => {
+
+    req.body.meta.photoId = targetId;
+    console.log('WHAT WE ARE TRYING TO SEND', req.body.meta);
+    if (mongoRecord){
+      return photoMetas().update(mongoRecord, req.body.meta);
+    } else {
+      return photoMetas().insert(req.body.meta);
+    }
+  })
+  .then (() => {
     return res.redirect('/gallery/'+targetId);
     // return res.json(result);
   })
@@ -135,10 +158,7 @@ router.get('/:id/edit', (req, res) => {
   let targetId = parseInt(req.params.id);
   let user = req.user;
 
-  let allViewObj = {
-    targetImage: {},
-    otherImages: []
-  };
+  let targetImage = {};
 
   return Images.findById(targetId, {include: [ Authors ]})
   .then(image => {
@@ -146,7 +166,17 @@ router.get('/:id/edit', (req, res) => {
     if (!user) { throw new Error('Please sign in to make edits to your images.'); }
     else if (image.user_id !== user.id) {throw new Error ('Trying to edit someone else\'s image is not nice.'); }
     image.authenticated = true;
-    return res.render('editForm', image);
+    targetImage = {id: image.id, url: image.url, description: image.description, user_id: image.user_id, author: image.Author.name};
+
+    return photoMetas().findOne({photoId: image.id.toString()});
+  })
+  .then(mongoRecord => {
+    if(mongoRecord){
+      delete mongoRecord._id;
+      delete mongoRecord.photoId;
+    }
+    targetImage.meta = JSON.stringify(mongoRecord);
+    return res.render('editForm', targetImage);
   })
   .catch((error) => {
     console.log ('here is our error', error);
@@ -161,20 +191,26 @@ router.get('/:id', (req, res) => {
 
   let singleViewObj = {
     targetImage: {},
-    otherImages: [],
+    otherImages: []
   };
 
   return Images.findById(targetId, {include: [ Authors ]})
   .then(image => {
-    if(!image){
-      throw new Error ('Error - image with that id does not exist');
-    } else {
-      let ownedByUser = user && (image.user_id === user.id);
-      let targetImage = {id: image.id, url: image.url, description: image.description, user_id: image.user_id, author: image.Author.name, ownedByUser: ownedByUser};
-      return singleViewObj.targetImage = targetImage;
-    }
+    if(!image){ throw new Error ('Error - image with that id does not exist');}
+    let ownedByUser = user && (image.user_id === user.id);
+    let targetImage = {id: image.id, url: image.url, description: image.description, user_id: image.user_id, author: image.Author.name, ownedByUser: ownedByUser};
+    singleViewObj.targetImage = targetImage;
+    console.log('the image id we are looking for', image.id);
+    return photoMetas().findOne({photoId : image.id.toString()});
   })
-  .then(() => {
+  .then((mongoRecord) => {
+    console.log('HERE IS OUR MONGO RECORD FROM GET TO ID', mongoRecord);
+    if(mongoRecord){
+      delete mongoRecord._id;
+      delete mongoRecord.photoId;
+    }
+    singleViewObj.targetImage.meta = mongoRecord;
+
     return Images.findAll({ where: {id : {$ne: targetId}}, include: [ Authors ]})
   })
   .then(images => {
@@ -207,7 +243,15 @@ router.delete('/:id', (req, res) => {
     if (user === undefined || image.user_id !== user.id) {throw new Error ('Trying to delete someone else\'s image is not nice.');};
     return Images.destroy({where: {id: targetId}});
   })
-  .then(deletedImage => {
+  .then(() => {
+    return photoMetas().findOne({photoId: targetId.toString()});
+  })
+  .then(mongoRecord => {
+    if(mongoRecord){
+      return photoMetas().remove({_id: mongoRecord._id});
+    }
+  })
+  .then((result) => {
     return res.redirect('/gallery');
   }).catch(error => {
     console.log ('here is our error', error);
