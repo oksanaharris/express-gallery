@@ -85,6 +85,10 @@
         });
       });
 
+      app.get('/', (req, res) => {
+        res.redirect('/gallery');
+      });
+
 
       app.get('/login', (req, res) => {
         res.render('login');
