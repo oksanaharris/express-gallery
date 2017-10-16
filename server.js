@@ -111,10 +111,10 @@
 
 
       app.post('/register', (req, res) => {
-        // console.log('post to register is firing');
+        console.log('post to register is firing');
         let {username, password} = req.body;
 
-        // console.log('req body', req.body.username, req.body.password);
+        console.log('req body', req.body.username, req.body.password);
 
         bcrypt.genSalt(saltRounds, function(err, salt) {
           bcrypt.hash(password, salt, function(err, hash){
@@ -134,17 +134,18 @@
 
 
       app.post('/login', function(req, res, next) {
-        // console.log('post to login is firing');
-        // console.log('req body', req.body);
+        console.log('post to login is firing');
+        console.log('req body', req.body);
 
         passport.authenticate('local', function(err, user, info) {
-          // console.log('going into authenticate');
-          // console.log('result from authenticate', user);
-          // console.log('info from authenticate', info);
-          // console.log('err', err);
+          console.log('going into authenticate');
+          console.log('result from authenticate', user);
+          console.log('info from authenticate', info);
+          console.log('err', err);
           //if authentication fails, user is false
           //and info is {message: 'Incorrect password'}
           //and err is null
+
 
           if (err) { return res.status(500).json({err});}
 
@@ -155,7 +156,7 @@
 
           req.logIn(user, function(err) {
             if (err) {return res.status(500).json({err});}
-            // console.log('successful login! from app.post to login');
+            console.log('successful login! from app.post to login');
             let {id, username} = user;
             let loggedInUser = {id, username};
             // return res.json(loggedInUser);
