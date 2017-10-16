@@ -227,7 +227,7 @@ router.get('/:id', (req, res) => {
   return Images.findById(targetId, {include: [ Authors ]})
   .then(image => {
     if(!image){ throw new Error ('Error - image with that id does not exist');}
-    let ownedByUser = user && (image.user_id === user.id);
+    let ownedByUser = (user && (image.user_id === user.id));
     let targetImage = {id: image.id, url: image.url, description: image.description, user_id: image.user_id, author: image.Author.name, ownedByUser: ownedByUser};
     singleViewObj.targetImage = targetImage;
     console.log('the image id we are looking for', image.id);

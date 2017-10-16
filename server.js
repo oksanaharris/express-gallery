@@ -162,6 +162,8 @@
             console.log('successful login! from app.post to login');
             let {id, username} = user;
             loggedInUser = {id, username};
+            req.user.id = user.id;
+            req.user.username = user.username;
             // return res.json(loggedInUser);
             return res.redirect('/gallery');
           })
