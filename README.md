@@ -52,3 +52,5 @@ Once you have finished with all of the requirements outlined above, you are enco
 - Create an Admin role, that has elevated privledges. (i.e. Admin can delete users, Admin can edit/delete any post, etc.).
 - Get a code review from an instructor or TA :sparkles:
 
+    // "username": "manager",
+    // "password": "psqlpassword",

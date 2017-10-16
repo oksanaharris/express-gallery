@@ -15,7 +15,7 @@ const photoMetas = require('../collections/').photoMetas;
 router.get('/', (req, res)=> {
   let user = req.user;
 
-  console.log('user from get on galleries', req.user);
+  // console.log('user from get on galleries', req.user);
 
   Images.findAll({
     include: [ Authors ],
@@ -33,7 +33,7 @@ router.get('/', (req, res)=> {
       let otherImages = []
 
       images.forEach(image => {
-        return otherImages.push({id: image.id, url: image.url, author: image.Author.name});
+        return otherImages.push({id: image.id, url: image.url, description: image.description, author: image.Author.name});
       });
 
       otherImages.shift();
@@ -43,7 +43,7 @@ router.get('/', (req, res)=> {
         otherImages: otherImages
       }
 
-      if(user){allViewObj.authenticated = true;};
+      if(user && user !== '' && user !== undefined){allViewObj.authenticated = true;};
 
       return res.render('all', allViewObj);
     }
@@ -93,7 +93,7 @@ router.post('/', (req, res)=>{
   .then(image => {
     // return res.json(image);
     // save the meta to mongo here
-    console.log('HERE IS OUR META', req.body.meta);
+    // console.log('HERE IS OUR META', req.body.meta);
     if (req.body.meta) {
       req.body.meta.photoId = image.id;
       photoMetas().insert(req.body.meta);
@@ -113,7 +113,7 @@ router.put('/:id', (req, res) => {
   let user = req.user;
   let authorId;
 
-  console.log('REQ BODY from PUT REQUEST', req.body);
+  // console.log('REQ BODY from PUT REQUEST', req.body);
 
   return Authors.findAll({where: {name: data.author}})
   .then (authors => {
@@ -140,7 +140,7 @@ router.put('/:id', (req, res) => {
   .then ((mongoRecord) => {
 
     req.body.meta.photoId = targetId;
-    console.log('WHAT WE ARE TRYING TO SEND', req.body.meta);
+    // console.log('WHAT WE ARE TRYING TO SEND', req.body.meta);
     if (mongoRecord){
       return photoMetas().update(mongoRecord, req.body.meta);
     } else {
@@ -152,7 +152,7 @@ router.put('/:id', (req, res) => {
     // return res.json(result);
   })
   .catch((error) => {
-    console.log ('here is our error', error);
+    // console.log ('here is our error', error);
     return res.status(400).send(error.message);
   });
 });
@@ -204,11 +204,11 @@ router.get('/:id', (req, res) => {
     let ownedByUser = user && (image.user_id === user.id);
     let targetImage = {id: image.id, url: image.url, description: image.description, user_id: image.user_id, author: image.Author.name, ownedByUser: ownedByUser};
     singleViewObj.targetImage = targetImage;
-    console.log('the image id we are looking for', image.id);
+    // console.log('the image id we are looking for', image.id);
     return photoMetas().findOne({photoId : image.id.toString()});
   })
   .then((mongoRecord) => {
-    console.log('HERE IS OUR MONGO RECORD FROM GET TO ID', mongoRecord);
+    // console.log('HERE IS OUR MONGO RECORD FROM GET TO ID', mongoRecord);
     if(mongoRecord){
       delete mongoRecord._id;
       delete mongoRecord.photoId;
@@ -239,7 +239,7 @@ router.delete('/:id', (req, res) => {
   let targetId = req.params.id;
 
   let user = req.user;
-    console.log('this is our logged in user', user);
+    // console.log('this is our logged in user', user);
 
   return Images.findById(targetId)
   .then(image => {

@@ -8,7 +8,7 @@
 
   <div class="galleryContainerSingle">
     <div class="mainImageContainerSingle">
-      <div class="mainImageTitleSingle">{{targetImage.author}} - {{targetImage.url}}</div>
+      <div class="mainImageTitleSingle">By: {{targetImage.author}}</div>
       <div class="mainImageSingle" style="background-image:url({{targetImage.url}})">
         {{#if targetImage.ownedByUser}}
           <div class="imageModalContainer">
@@ -33,7 +33,7 @@
         {{#each otherImages}}
           <div class="imageContainerSingle">
             <a href="/gallery/{{id}}"><div class="imageSingle" style="background-image:url({{url}})"></div></a>
-            <div class="imageDetailsSingle">{{author}} - {{url}}</div>
+            <div class="imageDetailsSingle">By: {{author}} - {{description}}</div>
           </div>
         {{/each}}
       </div>
