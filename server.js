@@ -28,6 +28,8 @@
       const Authors = db.Authors;
       const Users = db.Users;
 
+      let loggedInUser;
+
       app.engine('hbs', hbs.engine);
       app.set('view engine', 'hbs');
 
@@ -52,12 +54,31 @@
       app.use(passport.initialize());
       app.use(passport.session());
 
+      passport.serializeUser((user, done) => {
+        return done (null, {
+          id: user.id,
+          username: user.username
+        });
+      });
+
+
+      passport.deserializeUser((user, done) => {
+        Users.findById(user.id)
+        .then(user => {
+          return done(null, user);
+        })
+        .catch((error) => {
+          console.log ('here is our error', error);
+        });
+      });
+
+
       passport.use(new LocalStrategy((username, password, done) => {
         return Users.findOne({where: {username: username}})
         .then(result => {
           console.log('firing passport use and result is ', result);
 
-          if(result === null){
+          if(!result){
             console.log('no user found');
             return done(null, false, {message: 'No user with that username'});
           }
@@ -76,24 +97,6 @@
         });
       }));
 
-
-      passport.serializeUser((user, done) => {
-        return done (null, {
-          id: user.id,
-          username: user.username
-        });
-      });
-
-
-      passport.deserializeUser((user, done) => {
-        Users.findById(user.id)
-        .then(user => {
-          return done(null, user);
-        })
-        .catch((error) => {
-          console.log ('here is our error', error);
-        });
-      });
 
       app.get('/', (req, res) => {
         res.redirect('/gallery');
@@ -158,7 +161,7 @@
             if (err) {return res.status(500).json({err});}
             console.log('successful login! from app.post to login');
             let {id, username} = user;
-            let loggedInUser = {id, username};
+            loggedInUser = {id, username};
             // return res.json(loggedInUser);
             return res.redirect('/gallery');
           })
@@ -180,3 +183,5 @@
         db.sequelize.sync();
         console.log(`server running on ${PORT}`);
       });
+
+      module.exports = loggedInUser;

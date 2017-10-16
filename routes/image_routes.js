@@ -8,12 +8,17 @@ const Authors = db.Authors;
 
 const photoMetas = require('../collections/').photoMetas;
 
+let loggedInUser = require('../server.js');
+
 // Images.belongsTo(Authors, {as : 'authors_id'});
 // Authors.hasMany(Images);
 
 
 router.get('/', (req, res)=> {
   let user = req.user;
+  if (!req.user){
+    user = loggedInUser;
+  }
 
   console.log('user from get on galleries', req.user);
 
@@ -57,6 +62,11 @@ router.get('/', (req, res)=> {
 
 router.get('/new', (req, res) => {
   let user = req.user;
+
+  if (!req.user){
+    user = loggedInUser;
+  }
+
   let header = {authenticated: false}
   if (!user) { res.send('Please log in to upload images.'); }
   else if (user){header.authenticated = true;};
@@ -68,6 +78,10 @@ router.post('/', (req, res)=>{
   let image = req.body;
   let author = image.author;
   let user = req.user;
+
+  if (!req.user){
+    user = loggedInUser;
+  }
 
   return Images.findAll({where: {url: image.url}})
   .then(images => {
@@ -112,6 +126,10 @@ router.put('/:id', (req, res) => {
   let targetId = req.params.id;
   let user = req.user;
   let authorId;
+
+  if (!req.user){
+    user = loggedInUser;
+  }
 
   console.log('REQ BODY from PUT REQUEST', req.body);
 
@@ -162,6 +180,10 @@ router.get('/:id/edit', (req, res) => {
   let targetId = parseInt(req.params.id);
   let user = req.user;
 
+  if (!req.user){
+    user = loggedInUser;
+  }
+
   let targetImage = {};
 
   return Images.findById(targetId, {include: [ Authors ]})
@@ -192,6 +214,10 @@ router.get('/:id/edit', (req, res) => {
 router.get('/:id', (req, res) => {
   let targetId = parseInt(req.params.id);
   let user = req.user;
+
+  if (!req.user){
+    user = loggedInUser;
+  }
 
   let singleViewObj = {
     targetImage: {},
@@ -239,6 +265,10 @@ router.delete('/:id', (req, res) => {
   let targetId = req.params.id;
 
   let user = req.user;
+
+  if (!req.user){
+    user = loggedInUser;
+  }
     console.log('this is our logged in user', user);
 
   return Images.findById(targetId)
