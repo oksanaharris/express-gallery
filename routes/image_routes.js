@@ -8,7 +8,7 @@ const Authors = db.Authors;
 
 const photoMetas = require('../collections/').photoMetas;
 
-let loggedInUser = require('../server.js');
+// let loggedInUser = require('../server.js');
 
 // Images.belongsTo(Authors, {as : 'authors_id'});
 // Authors.hasMany(Images);
@@ -16,9 +16,9 @@ let loggedInUser = require('../server.js');
 
 router.get('/', (req, res)=> {
   let user = req.user;
-  if (!req.user){
-    user = loggedInUser;
-  }
+  // if (!req.user){
+  //   user = loggedInUser;
+  // }
 
   console.log('user from get on galleries', req.user);
 
@@ -63,9 +63,9 @@ router.get('/', (req, res)=> {
 router.get('/new', (req, res) => {
   let user = req.user;
 
-  if (!req.user){
-    user = loggedInUser;
-  }
+  // if (!req.user){
+  //   user = loggedInUser;
+  // }
 
   let header = {authenticated: false}
   if (!user) { res.send('Please log in to upload images.'); }
@@ -79,9 +79,9 @@ router.post('/', (req, res)=>{
   let author = image.author;
   let user = req.user;
 
-  if (!req.user){
-    user = loggedInUser;
-  }
+  // if (!req.user){
+  //   user = loggedInUser;
+  // }
 
   return Images.findAll({where: {url: image.url}})
   .then(images => {
@@ -127,9 +127,9 @@ router.put('/:id', (req, res) => {
   let user = req.user;
   let authorId;
 
-  if (!req.user){
-    user = loggedInUser;
-  }
+  // if (!req.user){
+  //   user = loggedInUser;
+  // }
 
   console.log('REQ BODY from PUT REQUEST', req.body);
 
@@ -180,9 +180,9 @@ router.get('/:id/edit', (req, res) => {
   let targetId = parseInt(req.params.id);
   let user = req.user;
 
-  if (!req.user){
-    user = loggedInUser;
-  }
+  // if (!req.user){
+  //   user = loggedInUser;
+  // }
 
   let targetImage = {};
 
@@ -215,9 +215,9 @@ router.get('/:id', (req, res) => {
   let targetId = parseInt(req.params.id);
   let user = req.user;
 
-  if (!req.user){
-    user = loggedInUser;
-  }
+  // if (!req.user){
+  //   user = loggedInUser;
+  // }
 
   let singleViewObj = {
     targetImage: {},
@@ -236,7 +236,7 @@ router.get('/:id', (req, res) => {
   .then((mongoRecord) => {
     console.log('HERE IS OUR MONGO RECORD FROM GET TO ID', mongoRecord);
     if(mongoRecord){
-      delete mongoRecord._id;
+      // delete mongoRecord._id;
       delete mongoRecord.photoId;
     }
     singleViewObj.targetImage.meta = mongoRecord;
@@ -266,10 +266,10 @@ router.delete('/:id', (req, res) => {
 
   let user = req.user;
 
-  if (!req.user){
-    user = loggedInUser;
-  }
-    console.log('this is our logged in user', user);
+  // if (!req.user){
+  //   user = loggedInUser;
+  // }
+  console.log('this is our logged in user', user);
 
   return Images.findById(targetId)
   .then(image => {

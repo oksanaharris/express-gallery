@@ -28,7 +28,7 @@
       const Authors = db.Authors;
       const Users = db.Users;
 
-      let loggedInUser;
+      // let loggedInUser;
 
       app.engine('hbs', hbs.engine);
       app.set('view engine', 'hbs');
@@ -161,9 +161,9 @@
             if (err) {return res.status(500).json({err});}
             console.log('successful login! from app.post to login');
             let {id, username} = user;
-            loggedInUser = {id, username};
-            req.user.id = user.id;
-            req.user.username = user.username;
+            // loggedInUser = {id, username};
+            // req.user.id = user.id;
+            // req.user.username = user.username;
             // return res.json(loggedInUser);
             return res.redirect('/gallery');
           })
@@ -186,4 +186,4 @@
         console.log(`server running on ${PORT}`);
       });
 
-      module.exports = loggedInUser;
+      // module.exports = loggedInUser;
