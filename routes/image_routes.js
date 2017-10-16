@@ -15,6 +15,8 @@ const photoMetas = require('../collections/').photoMetas;
 router.get('/', (req, res)=> {
   let user = req.user;
 
+  console.log('user from get on galleries', req.user);
+
   Images.findAll({
     include: [ Authors ],
     order: ['id']
@@ -24,6 +26,8 @@ router.get('/', (req, res)=> {
     if(req.headers.hasOwnProperty('accept') && req.headers.accept.match(/json/)) {
       res.json(images);
     } else {
+
+      if(!images || images.length === 0) { return res.json('message: no images in the database');}
 
       let firstImage = {id: images[0].id, url: images[0].url, author: images[0].Author.name};
       let otherImages = []

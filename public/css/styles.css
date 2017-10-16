@@ -19,8 +19,8 @@ body {
   /*background-color: red;*/
   height: 50px;
   position: relative;
-  top: -50px;
-  transition: top 0.5s ease-out;
+  top: 0px;
+  /*transition: top 0.5s ease-out;*/
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -304,3 +304,6 @@ body {
   .imageDetails > * {
     margin: 1px;
     display: inline; } }
+  .displayMsg {
+    height: 30px;
+  }
